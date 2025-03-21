@@ -1,0 +1,19 @@
+services:
+
+  unidepth:
+    image: unidepth
+    container_name: depth-estimation-service-unidepth
+    build: .
+    restart: always
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/home/depth_estimation
+      - ./data:/home/depth_estimation/data  # for case if data is stored in the different directory
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
