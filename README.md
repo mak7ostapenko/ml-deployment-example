@@ -19,13 +19,8 @@ Generated with `tree .`.
 ### 🐍 Python Environment
 
 ```bash
-# create python env
 python3 -m venv .env/
-
-# activate env
 source .env/bin/activate
-
-# install requirements
 pip install -r requirements.txt
 ```
 
@@ -34,7 +29,71 @@ pip install -r requirements.txt
 
 ## 🚀 Usage
 
+### Serve with Docker
 
+### Serve with tmux
+This serve is not made for production use, but good for testing, especcially on some remote device 
+
+```bash
+tmux new -s SESSION_NAME
+
+# inside of it run service
+./run_service.sh
+
+# to exit session window use
+ctrl+b + d
+
+# to open session again
+tmux a -t SESSION_NAME
+```
+
+More usefull commands to learn [tmux](https://gist.github.com/MohamedAlaa/2961058)
+
+### Add your own model
+
+Here is how I added the model
+
+First, copy model's repository into `src/` folder.
+
+```bash
+cd src/
+# clone your target repository
+git clone https://github.com/lpiccinelli-eth/UniDepth.git
+
+# then add it to .gitignore
+cd ../
+echo src/UniDepth >> .gitignore
+```
+**Note**, also you can add repository using git module.
+
+Second, follow model's specefic instructions to launch it.
+
+### Transform the model into ONNX format
+In this case, I am going to use already provided code to export into `.onnx` format.
+
+For completness going to add the UniDepth specific instruction.
+```bash
+# to run Unideptth in the docker container do
+cp Dockerfile_unidepth src/UniDepth/Dockerfile
+
+# build container and export model to .onnx format
+cd src/UniDepth
+
+docker build -t dev_unidepth .
+docker run -it --gpus all \
+    --name cont_ud_1 \
+    -v "$(pwd):/home/depth_estimation" \
+    dev_unidepth
+
+# inside of the container
+python3 ./unidepth/models/unidepthv2/export.py --version v2 --backbone vits --shape 462 630 --output-path unidepthv2_vits_462_630.onnx
+```
+
+Finally, move the model to checkpoints folder.
+```bash
+mkdir checkpoints/
+mv src/UniDepth/unidepthv2_vits_462_630.onnx checkpoints/
+```
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

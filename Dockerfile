@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Update the system timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV APP_WORKDIR /home/depth_estimation
+ENV APP_WORKDIR=/home/depth_estimation
 # Set the working directory inside the container
 WORKDIR $APP_WORKDIR
 

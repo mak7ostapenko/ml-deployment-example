@@ -1,0 +1,5 @@
+typing_extensions
+fastapi
+uvicorn
+pytest
+glob2
