@@ -102,3 +102,32 @@ def make_square_img_with_borders(
         return img, (padd_top, padd_bottom, padd_left, padd_right)
     else:
         return img
+
+
+def get_paddings(original_shape, target_shape):
+    H_ori, W_ori = original_shape
+    orig_aspect_ratio = W_ori / H_ori
+
+    H_target, W_target = target_shape
+    target_aspect_ratio = W_target / H_target
+
+    if orig_aspect_ratio > target_aspect_ratio:  # Too wide
+        W_new = W_ori
+        H_new = int(W_ori / target_aspect_ratio)
+        pad_top = (H_new - H_ori) // 2
+        pad_bottom = H_new - H_ori - pad_top
+        pad_left, pad_right = 0, 0
+    else:  # Too tall
+        H_new = H_ori
+        W_new = int(H_ori * target_aspect_ratio)
+        pad_left = (W_new - W_ori) // 2
+        pad_right = W_new - W_ori - pad_left
+        pad_top, pad_bottom = 0, 0
+
+    return (pad_left, pad_right, pad_top, pad_bottom), (H_new, W_new)
+
+
+def get_resize_factor(original_shape: Tuple[int, int], target_shape: Tuple[int, int]) -> Tuple[int, int]:
+    resize_factor_h = target_shape[0] / original_shape[0]
+    resize_factor_w = target_shape[1] / original_shape[1]
+    return (resize_factor_h, resize_factor_w)
