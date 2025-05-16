@@ -5,21 +5,19 @@ import cv2
 import numpy as np
 
 
-def encode_to_byteimg(
-    bgr_img: np.ndarray, img_ext: str = "jpg"
-) -> bytes:
-    _, buffer = cv2.imencode("." + img_ext, bgr_img)
-    img_in_base64 = base64.b64encode(buffer).decode("utf-8")
-    return img_in_base64
+def encode_to_base64(
+    img: np.ndarray, img_ext: str = "jpg"
+) -> str:
+    _, buffer = cv2.imencode("." + img_ext, img)
+    img_b64 = base64.b64encode(buffer).decode("utf-8")
+    return img_b64
 
 
-def decode_byteimg(byte_img: np.ndarray) -> np.ndarray:
-    """ NOTE: returns in BGR format
-    """
-    byte_img = base64.b64decode(byte_img)
-    byte_img = np.frombuffer(byte_img, dtype=np.uint8)
-    bgr_img = cv2.imdecode(byte_img, cv2.IMREAD_COLOR)
-    return bgr_img
+def decode_from_base64(img_b64: str) -> np.ndarray:
+    img_b64 = base64.b64decode(img_b64)
+    img_b64 = np.frombuffer(img_b64, dtype=np.uint8)
+    img = cv2.imdecode(img_b64, cv2.IMREAD_COLOR)
+    return img
 
 
 def scaled_resize(

@@ -1,1 +1,2 @@
-uvicorn app.main:app --host 0.0.0.0 --port 8001 --workers 1 --reload
+#!/bin/bash
+python3 run_app.py --reload --num-workers 1 

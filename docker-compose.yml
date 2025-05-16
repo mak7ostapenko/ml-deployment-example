@@ -1,7 +1,7 @@
 services:
 
   unidepth:
-    image: unidepth
+    image: depth_estimation-service
     container_name: depth-estimation-service-unidepth
     build: .
     restart: always

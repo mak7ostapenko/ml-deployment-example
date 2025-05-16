@@ -19,7 +19,12 @@ RUN apt-get install ffmpeg libsm6 libxext6 -y
 # Install Python dependencies
 RUN apt install python3-pip -y
 RUN python3 -m pip install --upgrade setuptools pip wheel
-RUN pip --no-cache-dir install -r requirements_app.txt
+
+COPY requirements.txt ./requirements.txt
+COPY requirements_app.txt ./requirements_app.txt
+
+RUN pip install -r requirements.txt
+RUN pip install -r requirements_app.txt
 
 EXPOSE 80
 

@@ -5,34 +5,31 @@ The aim of this repository is to provide starter code for your ML models deploym
 
 I am going to work with depth estimation and as a model [UniDepthV2](https://github.com/lpiccinelli-eth/unidepth) is seletected. 
 
-## 🌲 Repository Structure
-
-```
-/src
-```
-Generated with `tree .`.
-
 ## 🛠️ Setup
 
 *This was tested on Ubuntu 24.04 LTS with Python 3.12.3 and 16GB RAM*
-
-### 🐍 Python Environment
-
-```bash
-python3 -m venv .env/
-source .env/bin/activate
-pip install -r requirements.txt
-```
-
-### 💾 Data
-
 
 ## 🚀 Usage
 
 ### Serve with Docker
 
+In the app config file set 
+```Python
+IS_IN_DOCKER = True
+```
+
+Launch with `docker-compose.yml`
+```bash
+docker compose up --build
+```
+
 ### Serve with tmux
-This serve is not made for production use, but good for testing, especcially on some remote device 
+This method is not aimed for production use, but good for testing, especcially on remote device.
+
+In the app config file set 
+```Python
+IS_IN_DOCKER = False
+```
 
 ```bash
 tmux new -s SESSION_NAME
@@ -49,11 +46,28 @@ tmux a -t SESSION_NAME
 
 More usefull commands to learn [tmux](https://gist.github.com/MohamedAlaa/2961058)
 
-### Add your own model
+## 🌲 Repository Structure
+
+```
+/src
+```
+Generated with `tree .`.
+
+
+## Add your own model
 
 Here is how I added the model
 
-First, copy model's repository into `src/` folder.
+### 🐍 Python Environment
+
+```bash
+python3 -m venv .env/
+source .env/bin/activate
+pip install -r requirements.txt
+```
+
+### Get target
+Copy model's repository into `src/` folder.
 
 ```bash
 cd src/
@@ -67,6 +81,7 @@ echo src/UniDepth >> .gitignore
 **Note**, also you can add repository using git module.
 
 Second, follow model's specefic instructions to launch it.
+
 
 ### Transform the model into ONNX format
 In this case, I am going to use already provided code to export into `.onnx` format.
@@ -94,6 +109,23 @@ Finally, move the model to checkpoints folder.
 mkdir checkpoints/
 mv src/UniDepth/unidepthv2_vits_462_630.onnx checkpoints/
 ```
+
+### Run app tests
+
+```bash
+pytest tests/
+```
+
+### Load testing with Locust
+```bash
+# start service
+./run_service.sh
+# run locust test
+locust -f scripts/locust.py
+```
+
+As a result you will get similar drawings.
+[figure](assets/room.jpg)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

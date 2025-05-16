@@ -3,3 +3,5 @@ fastapi
 uvicorn
 pytest
 glob2
+PyYAML
+httpx

@@ -1,8 +1,8 @@
-import os
 import sys
+import pathlib
 
-proj_root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
-sys.path.append(proj_root_dir)
+project_root = pathlib.Path(__file__).resolve().parent.parent
+sys.path.append(str(project_root))
 
 import argparse
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--image_path",
         type=str,
-        default="data/coridor.jpg",
+        default="assets/room.jpg",
         help="Path to the input image.",
     )
     args = parser.parse_args()
