@@ -2,6 +2,7 @@ data/
 .venv/
 src/UniDepth
 checkpoints/
+logs/
 
 todo.md
 

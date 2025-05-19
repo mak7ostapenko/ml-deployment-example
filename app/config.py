@@ -2,7 +2,7 @@ import pathlib
 
 from app.structures import DepthEsimationAppCfg
 
-IS_IN_DOCKER = True
+IS_IN_DOCKER = False
 project_root = pathlib.Path(__file__).parent.parent.resolve()
 
 base_config = {
